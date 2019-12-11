@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "209389110481",
+    "firebase_url": "https://fttapp-b64d1.firebaseio.com",
+    "project_id": "fttapp-b64d1",
+    "storage_bucket": "fttapp-b64d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209389110481:android:f491e01d071b8f195af1f0",
+        "android_client_info": {
+          "package_name": "com.example.fluttertodoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209389110481-qu1be2u7seep55v8dejv7rsvk2r38rf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fluttertodoapp",
+            "certificate_hash": "25dfd3f781ef15bdbac4018c68d50910a94f6af9"
+          }
+        },
+        {
+          "client_id": "209389110481-4bup1q9n7o3v9ghqvhv2991s1jg785jq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAupAf-z7SRvny-6qtTCIPjqANjGBKh85c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209389110481-4bup1q9n7o3v9ghqvhv2991s1jg785jq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
