@@ -1,7 +1,7 @@
-import 'package:FTT/stackBuilder.dart';
-import 'package:FTT/task.dart';
+import 'package:FTT/utils/stackBuilder.dart';
+import 'package:FTT/models/task.dart';
 import 'package:flutter/material.dart';
-import 'firestoreservice.dart';
+import '../services/studentservice.dart';
 
 class DataSearch extends SearchDelegate<String> {
   List<Task> _students = new List<Task>();
@@ -37,7 +37,7 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    FirestoreService fireServ = new FirestoreService();
+    StudentService fireServ = new StudentService();
     String wHere = (studentSelected.isEmpty) ? query : studentSelected;
     Task stud = _students.where((p) => p.taskname.startsWith(wHere)).first;
 

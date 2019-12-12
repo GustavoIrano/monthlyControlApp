@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'package:FTT/DataSearch.dart';
-import 'package:FTT/stackBuilder.dart';
+import 'package:FTT/utils/DataSearch.dart';
+import 'package:FTT/utils/stackBuilder.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'firestoreservice.dart';
+import 'services/studentservice.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'taskscreen.dart';
-import 'task.dart';
+import 'screens/taskscreen.dart';
+import 'models/task.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Task> items;
-  FirestoreService fireServ = new FirestoreService();
+  StudentService fireServ = new StudentService();
   StreamSubscription<QuerySnapshot> todoTasks;
 
   @override

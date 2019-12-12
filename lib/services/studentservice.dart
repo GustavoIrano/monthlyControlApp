@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'task.dart';
+import '../models/task.dart';
 
 final CollectionReference myCollection = Firestore.instance.collection('students');
 
-class FirestoreService {
+class StudentService {
   
   Future<Task> createTODOTask(String taskname, String taskphone,String taskdate,String taskdateinsert, String taskImage) async {
 

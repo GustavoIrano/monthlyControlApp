@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:FTT/firestoreservice.dart';
+import 'package:FTT/services/studentservice.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'firestoreservice.dart';
-import 'task.dart';
+import '../services/studentservice.dart';
+import '../models/task.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -20,7 +20,7 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  FirestoreService fireServ = new FirestoreService();
+  StudentService fireServ = new StudentService();
 
   TextEditingController _taskNameController;
   TextEditingController _taskPhoneController;

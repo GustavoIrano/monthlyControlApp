@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'firestoreservice.dart';
-import 'main.dart';
+import '../services/studentservice.dart';
+import '../main.dart';
 
 Widget todoType(String url) {
   return CircleAvatar(
@@ -20,7 +20,7 @@ Widget todoType(String url) {
 
 
 showAlertDialog(
-    BuildContext context, String idAluno, List<dynamic> pagamentos, FirestoreService fireServ) {
+    BuildContext context, String idAluno, List<dynamic> pagamentos, StudentService fireServ) {
   pagamentos.sort();
   String ultimoPagamento = getLastPay(pagamentos);
 

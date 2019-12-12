@@ -1,12 +1,12 @@
-import 'package:FTT/firestoreservice.dart';
-import 'package:FTT/paymenthistory.dart';
-import 'package:FTT/task.dart';
-import 'package:FTT/utils.dart';
+import 'package:FTT/services/studentservice.dart';
+import 'package:FTT/screens/paymenthistory.dart';
+import 'package:FTT/models/task.dart';
+import 'package:FTT/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class StackBuilder{
 
-  Stack buildStack(BuildContext context, Task stud, FirestoreService fireServ){
+  Stack buildStack(BuildContext context, Task stud, StudentService fireServ){
 
     return  Stack(children: <Widget>[
       // The containers in the background
