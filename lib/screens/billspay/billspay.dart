@@ -1,3 +1,8 @@
+import 'package:FTT/models/billstopay.dart';
+import 'package:FTT/screens/billspay/billspayadd.dart';
+import 'package:FTT/services/billspayservice.dart';
+import 'package:FTT/utils/stackBuilder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,10 +15,24 @@ class BillsPay extends StatefulWidget{
 }
 
 class _BillsPay extends State<BillsPay>{
+  List<BillsToPay> items;
+  BillsPayService fireServ = new BillsPayService();
 
   @override
   void initState(){
+    super.initState();
 
+    items = new List();
+
+    fireServ.getBillList().listen((QuerySnapshot snapshot){
+      final List<BillsToPay> bills = snapshot.documents
+          .map((documentSnapshot) =>
+          BillsToPay.fromMap(documentSnapshot.data, documentSnapshot.documentID)
+      ).toList();
+      setState(() {
+        items = bills;
+      });
+    });
   }
 
   @override
@@ -26,12 +45,12 @@ class _BillsPay extends State<BillsPay>{
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height - 80,
-            child: Text("implementar aqui"),/*ListView.builder(
+            child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return StackBuilder()
-                      .buildStack(context, items[index], fireServ);
-                }),*/
+                      .buildStackBills(context, items[index], fireServ);
+                }),
           ),
         ],
       ),
@@ -93,6 +112,12 @@ class _BillsPay extends State<BillsPay>{
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BillsPaysAdd(BillsToPay('',0,'',0,'')),
+                                fullscreenDialog: true),
+                          );
                         }),
                   ),
                 ),

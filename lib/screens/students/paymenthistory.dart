@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import '../services/studentservice.dart';
+import '../../services/studentservice.dart';
 
 class PaymentHistory extends StatefulWidget {
   final String idStudent;

@@ -6,7 +6,7 @@ final CollectionReference myCollection = Firestore.instance.collection('students
 
 class StudentService {
   
-  Future<Task> createTODOTask(String taskname, String taskphone,String taskdate,String taskdateinsert, String taskImage) async {
+  Future createTODOTask(String taskname, String taskphone,String taskdate,String taskdateinsert, String taskImage) async {
 
     List<String> pagamentos = new List<String>();
     pagamentos.add(DateTime.now().toString());
@@ -20,11 +20,11 @@ class StudentService {
               'taskpagamentos': pagamentos });
   }
   
-  Future addPayDate(String payDate, String documentID){
+  Future addPayDate(String payDate, String documentID)async{
     List<String> pay = new List<String>();
     pay.add(payDate);
 
-    Firestore.instance.collection('students').document(documentID).updateData({"taskpagamentos": FieldValue.arrayUnion(pay)});
+    myCollection.document(documentID).updateData({"taskpagamentos": FieldValue.arrayUnion(pay)});
   }
 
   Stream<QuerySnapshot> getTaskList({int offset, int limit}) {
@@ -45,7 +45,7 @@ class StudentService {
     return snapshots;
   }
 
-  Future deletePayment(String datePayment, String idStudent){
+  Future deletePayment(String datePayment, String idStudent)async{
     List<String> pay = new List<String>();
     pay.add(datePayment);
 

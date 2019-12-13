@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:FTT/services/studentservice.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../services/studentservice.dart';
-import '../models/task.dart';
+import '../../services/studentservice.dart';
+import '../../models/task.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -37,11 +37,9 @@ class _TaskScreenState extends State<TaskScreen> {
     super.initState();
 
     _taskNameController = new TextEditingController(text: widget.task.taskname);
-    _taskPhoneController =
-        new TextEditingController(text: widget.task.taskphone);
+    _taskPhoneController = new TextEditingController(text: widget.task.taskphone);
     _taskDateController = new TextEditingController(text: widget.task.taskdate);
-    _taskDateInsertController =
-        new TextEditingController(text: widget.task.taskDateInsert);
+    _taskDateInsertController = new TextEditingController(text: widget.task.taskDateInsert);
     _taskImageController =  new TextEditingController(text: widget.task.taskImage);
   }
 
@@ -100,14 +98,14 @@ class _TaskScreenState extends State<TaskScreen> {
                   padding: EdgeInsets.only(left: 16.0, right: 16.0),
                   child: TextField(
                     controller: _taskNameController,
-                    decoration: InputDecoration(labelText: "Nome: "),
+                    decoration: InputDecoration(labelText: "Nome"),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 16.0, right: 16.0),
                   child: TextField(
                     controller: _taskPhoneController,
-                    decoration: InputDecoration(labelText: "Telefone: "),
+                    decoration: InputDecoration(labelText: "Telefone"),
                     keyboardType: TextInputType.phone,
                     maxLength: 11,
                   ),
@@ -117,7 +115,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   child: TextField(
                     controller: _taskDateController,
                     decoration: InputDecoration(
-                      labelText: "Dia de pagamento (Mensalidade): ",
+                      labelText: "Dia de pagamento (Mensalidade)",
                       errorText: ( _numberDay > 30) ? "Digite um dia menor do que 30" : null,
                     ),
                     maxLength: 2,
