@@ -15,8 +15,14 @@ class BillsPayService {
     });
   }
 
-  Stream<QuerySnapshot> getBillList({int offset, int limit}) {
-    Stream<QuerySnapshot> snapshots = myCollection.snapshots();
+  Stream<QuerySnapshot> getBillList(String date, bool initial, {int offset, int limit}) {
+
+    var nextMonthsplit = date.split("-");
+    int day = int.parse( nextMonthsplit[1] ) + 1;
+    var nextMonth = (nextMonthsplit[0] + "-" + day.toString() + "-" + nextMonthsplit[2]).toString();
+
+    Stream<QuerySnapshot> snapshots = myCollection.where("billpaydate", isGreaterThanOrEqualTo: date)
+        .where("billpaydate", isLessThanOrEqualTo: nextMonth).snapshots();
 
     if (offset != null) {
       snapshots = snapshots.skip(offset);
@@ -27,4 +33,9 @@ class BillsPayService {
     return snapshots;
   }
 
+
+  Future deleteBillToPay(String documentPay)async{
+
+    myCollection.document(documentPay).delete();
+  }
 }

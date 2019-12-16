@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:FTT/screens/billspay/billspay.dart';
+import 'package:FTT/screens/conciliation/conciliation.dart';
 import 'package:FTT/utils/DataSearch.dart';
 import 'package:FTT/utils/stackBuilder.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'services/studentservice.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'screens/students/taskscreen.dart';
 import 'models/task.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
-      supportedLocales: [
-        const Locale('pt', 'BR')
-      ],
+      supportedLocales: [const Locale('pt', 'BR')],
       home: MyHomePage(),
     );
   }
@@ -75,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _myAppBar(context),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 80,
+            height: MediaQuery.of(context).size.height - 90,
             child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
@@ -109,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.deepOrangeAccent,
             label: "Novo Aluno",
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -123,21 +121,27 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.deepOrangeAccent,
             label: "Contas à pagar",
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => BillsPay(),
-                    fullscreenDialog: true),
+                    builder: (context) => BillsPay(), fullscreenDialog: true),
               );
             },
           ),
           SpeedDialChild(
-            child: Icon(FontAwesomeIcons.solidMoneyBillAlt, color: Colors.black),
+            child:
+                Icon(FontAwesomeIcons.solidMoneyBillAlt, color: Colors.black),
             backgroundColor: Colors.deepOrangeAccent,
-            label: "Contas à receber",
+            label: "Contas: receber X pagar",
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: (){},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Conciliation(), fullscreenDialog: true),
+              );
+            },
           ),
         ],
       ),
@@ -146,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _myAppBar(context) {
     return Container(
-      height: 80.0,
+      height: 90.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -160,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
             tileMode: TileMode.clamp),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 30.0),
         child: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

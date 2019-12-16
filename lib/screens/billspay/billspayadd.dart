@@ -75,7 +75,7 @@ class _BillsPaysAdd extends State<BillsPaysAdd> {
           _myAppBar(context),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 80,
+            height: MediaQuery.of(context).size.height - 90,
             child: ListView(children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 16.0, right: 16.0),
@@ -176,7 +176,7 @@ class _BillsPaysAdd extends State<BillsPaysAdd> {
 
   Widget _myAppBar(context) {
     return Container(
-      height: 80.0,
+      height: 90.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -190,7 +190,7 @@ class _BillsPaysAdd extends State<BillsPaysAdd> {
             tileMode: TileMode.clamp),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 30.0),
         child: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

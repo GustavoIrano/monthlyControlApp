@@ -1,3 +1,6 @@
+import 'package:FTT/models/billstopay.dart';
+import 'package:FTT/screens/billspay/billspay.dart';
+import 'package:FTT/services/billspayservice.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/studentservice.dart';
@@ -69,6 +72,75 @@ showAlertDialog(
             new TextSpan(
                 text: "Confirma o pagamento desse mês?",
                 style: new TextStyle(fontWeight: FontWeight.bold)),
+          ]),
+    ),
+    actions: [
+      cancelButton,
+      payButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialogBillToPay(BuildContext context, BillsToPay billsToPay, BillsPayService fireServ) {
+
+  Widget cancelButton = FlatButton(
+    child: Text("Cancelar"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+
+  Widget payButton = FlatButton(
+    child: Text("Confirmar exclusão?"),
+    onPressed: () async{
+      print("caiu no confirm");
+      fireServ.deleteBillToPay(billsToPay.billID);
+        await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BillsPay()),
+        );
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Exclusão contas à pagar"),
+    content: new RichText(
+      text: new TextSpan(
+          style: new TextStyle(
+            fontSize: 14.0,
+            color: Colors.black,
+          ),
+          children: <TextSpan>[
+            new TextSpan(
+                text: 'Conta: ',
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            new TextSpan(text: billsToPay.bill),
+            new TextSpan(text: "\n"),
+            new TextSpan(
+                text: 'Tipo: ',
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            new TextSpan(text: billsToPay.billtype),
+            new TextSpan(text: "\n"),
+            new TextSpan(
+                text: 'Valor: ',
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            new TextSpan(text: "R\$" + BillsToPay.formatPay( billsToPay.billvalue.toString() ).replaceAll(".", ",")),
+            new TextSpan(text: "\n"),
+            new TextSpan(
+                text: 'Data para exclusão: ',
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            new TextSpan(text: DateFormat("dd/MM/yyyy")
+                .format(DateTime.parse(billsToPay.billdate))),
           ]),
     ),
     actions: [

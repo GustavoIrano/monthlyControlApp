@@ -1,5 +1,6 @@
 
 class BillsToPay{
+  String   _billID;
   String   _bill;
   double   _billvalue;
   String   _billtype;
@@ -16,6 +17,7 @@ class BillsToPay{
     this._billdate = obj['billpaydate'];
   }
 
+  String get billID => _billID;
   String get bill => _bill;
   double get billvalue => _billvalue;
   String get billtype => _billtype;
@@ -32,10 +34,32 @@ class BillsToPay{
   }
 
   BillsToPay.fromMap(Map<String,dynamic> map, String documentID ){
+    this._billID = documentID;
     this._bill = map['billpayname'];
     this._billvalue = map['billpayvalue'];
     this._billtype = map['billpaytype'];
     this._billammountMonths = map['billpayammountmonths'];
     this._billdate = map['billpaydate'];
+  }
+
+  static formatPay(String pay){
+    var p = pay.split(".");
+
+    if(p[1].length == 1 ){
+      pay = pay + "0";
+    }
+
+    return pay;
+  }
+
+  static calculateTotalMensal(List<BillsToPay> bills){
+
+    double total = 0;
+
+    for(BillsToPay bill in bills){
+      total = total + bill.billvalue;
+    }
+
+    return formatPay(total.toString()).toString().replaceAll(".", ",");
   }
 }

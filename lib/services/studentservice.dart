@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/task.dart';
 
 final CollectionReference myCollection = Firestore.instance.collection('students');
 

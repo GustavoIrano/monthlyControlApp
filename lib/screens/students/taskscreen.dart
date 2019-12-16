@@ -91,7 +91,7 @@ class _TaskScreenState extends State<TaskScreen> {
           _myAppBar(context),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 80,
+            height: MediaQuery.of(context).size.height - 90,
             child: ListView(
               children: <Widget>[
                 Padding(
@@ -210,7 +210,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   Widget _myAppBar(BuildContext context) {
     return Container(
-      height: 80.0,
+      height: 90.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -224,7 +224,7 @@ class _TaskScreenState extends State<TaskScreen> {
             tileMode: TileMode.clamp),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 30.0),
         child: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

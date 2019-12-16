@@ -5,13 +5,12 @@ import 'package:FTT/screens/students/paymenthistory.dart';
 import 'package:FTT/models/task.dart';
 import 'package:FTT/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-class StackBuilder{
-
-  Stack buildStack(BuildContext context, Task stud, StudentService fireServ){
-
-    return  Stack(children: <Widget>[
+class StackBuilder {
+  Stack buildStack(BuildContext context, Task stud, StudentService fireServ) {
+    return Stack(children: <Widget>[
       // The containers in the background
       Column(children: <Widget>[
         Padding(
@@ -29,8 +28,7 @@ class StackBuilder{
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         todoType(stud.taskImage),
                         GestureDetector(
@@ -39,34 +37,29 @@ class StackBuilder{
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      PaymentHistory( stud.taskid ),
+                                      PaymentHistory(stud.taskid),
                                   fullscreenDialog: true),
                             );
                           },
-                          child: Text( stud.taskname ,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20.0),
+                          child: Text(
+                            stud.taskname,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            showAlertDialog(
-                                context,
-                                stud.taskid,
-                                stud.taskpagamentos,
-                                fireServ);
+                            showAlertDialog(context, stud.taskid,
+                                stud.taskpagamentos, fireServ);
                           },
                           child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 'Dia Pag: ' + stud.taskdate,
                                 style: TextStyle(
                                     color: payLate(
-                                        stud.taskdate,
-                                        stud.taskpagamentos)
+                                            stud.taskdate, stud.taskpagamentos)
                                         ? Colors.red
                                         : Colors.black,
                                     fontSize: 18.0,
@@ -87,9 +80,9 @@ class StackBuilder{
     ]);
   }
 
-  Stack buildStackBills(BuildContext context, BillsToPay bill, BillsPayService fireServ){
-
-    return  Stack(children: <Widget>[
+  Stack buildStackBills(
+      BuildContext context, BillsToPay bill, BillsPayService fireServ) {
+    return Stack(children: <Widget>[
       // The containers in the background
       Column(children: <Widget>[
         Padding(
@@ -107,36 +100,40 @@ class StackBuilder{
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-
-                          },
-                          child: Text( bill.bill ,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20.0),
+                          onTap: () {},
+                          child: Text(
+                            bill.bill,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-
-                          },
+                          onTap: () {},
                           child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Data de Pag: ' + DateFormat('dd/MM/yyyy').format( DateTime.parse( bill.billdate ) ),
+                                  'Data de Pag: ' +
+                                      DateFormat('dd/MM/yyyy').format(
+                                          DateTime.parse(bill.billdate)),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 15.0,
-                                      fontWeight: FontWeight.bold)
-                              ),
+                                      fontWeight: FontWeight.bold)),
                             ],
                           ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.solidTrashAlt,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            showAlertDialogBillToPay(context, bill, fireServ);
+                          },
                         ),
                       ],
                     ),
