@@ -36,7 +36,7 @@ dependencies:
   flutter_masked_text: ^0.8.0
   datetime_picker_formfield: ^0.4.3
   month_picker_strip: ^0.0.3
-
+  date_utils: ^0.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,14 @@
+import 'package:FTT/models/billstopay.dart';
+import 'package:FTT/models/conciliation.dart';
+import 'package:FTT/models/task.dart';
+import 'package:FTT/services/billspayservice.dart';
+import 'package:FTT/services/studentservice.dart';
+import 'package:FTT/utils/conciliationutil.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:synchronized/synchronized.dart';
 
 class Conciliation extends StatefulWidget {
   @override
@@ -8,9 +16,54 @@ class Conciliation extends StatefulWidget {
 }
 
 class _ConciliationState extends State<Conciliation> {
+  StudentService fireServ = new StudentService();
+  BillsPayService fireServBill = new BillsPayService();
+  List<ConciliationModel> conciliation;
+
   @override
   void initState() {
     super.initState();
+
+    fireServ.getTaskList().listen((QuerySnapshot snapshot) {
+      final List<Task> tasks = snapshot.documents
+          .map((documentSnapshot) =>
+              Task.fromMap(documentSnapshot.data, documentSnapshot.documentID))
+          .toList();
+
+      setState(() {
+        this.conciliation = ConciliationUtil.buildConciliation(tasks);
+      });
+    });
+
+    fireServBill
+        .getBillList(
+            DateTime(DateTime.now().year, DateTime.now().month, 1).toString(),
+            false)
+        .listen((QuerySnapshot snapshot) {
+      final List<BillsToPay> bills = snapshot.documents
+          .map((documentSnapshot) => BillsToPay.fromMap(
+              documentSnapshot.data, documentSnapshot.documentID))
+          .toList();
+      setState(() {
+        this.conciliation =
+            ConciliationUtil.buildConciliationBillsToPay(conciliation, bills);
+      });
+    });
+  }
+
+  Color colorPayment(double valueToPay, double valueToReceive){
+
+    double result = valueToPay - valueToReceive;
+
+    if( result < 0 ){
+      return Colors.red;
+    }
+
+    if(result > 0){
+      return Colors.blue;
+    }
+
+    return Colors.black;
   }
 
   @override
@@ -22,13 +75,14 @@ class _ConciliationState extends State<Conciliation> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 125,
           child: ListView.builder(
-              itemCount: 30,
+              itemCount: conciliation.length,
               itemBuilder: (context, index) {
                 return Stack(children: <Widget>[
                   Container(
-                    height: 40.0,
+                    height: 100.0,
+                    width: MediaQuery.of(context).size.width,
                     margin:
-                        const EdgeInsets.only(left: 50.0, top: 6.5, right: 3.5),
+                        const EdgeInsets.only(left: 4.5, top: 30.5, right: 4.5),
                     decoration: new BoxDecoration(
                       shape: BoxShape.rectangle,
                       color: Colors.white,
@@ -36,24 +90,123 @@ class _ConciliationState extends State<Conciliation> {
                       boxShadow: <BoxShadow>[
                         new BoxShadow(
                           color: Colors.grey,
-                          offset: new Offset(0.0, 10.0),
-                          blurRadius: 10.0,
+                          offset: new Offset(10.0, 10.0),
+                          blurRadius: 80.0,
                         )
+                      ],
+                    ),
+                    child: new Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new RichText(
+                              text: new TextSpan(
+                                  style: new TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    new TextSpan(
+                                      text: 'Á pagar: ',
+                                      style: new TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      children: [
+                                        new TextSpan(
+                                            text: "\nR\$ " +
+                                                BillsToPay.formatPay(
+                                                        conciliation[index]
+                                                            .valueToPay
+                                                            .toString())
+                                                    .toString()
+                                                    .replaceAll(".", ","),
+                                          style: new TextStyle(
+                                              fontWeight: FontWeight.normal),),
+                                      ],
+                                    ),
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new RichText(
+                              text: new TextSpan(
+                                  style: new TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    new TextSpan(
+                                      text: 'Á receber: ',
+                                      style: new TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      children: [
+                                        new TextSpan(
+                                            text: "\nR\$ " +
+                                                BillsToPay.formatPay(
+                                                        conciliation[index]
+                                                            .valueToReceive
+                                                            .toString())
+                                                    .toString()
+                                                    .replaceAll(".", ","),
+                                          style: new TextStyle(
+                                              fontWeight: FontWeight.normal),),
+                                      ],
+                                    ),
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new RichText(
+                              text: new TextSpan(
+                                  style: new TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    new TextSpan(
+                                      text: 'Total: ',
+                                      style: new TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      children: [
+                                        new TextSpan(
+                                            text: "\nR\$ " + BillsToPay.formatPay((conciliation[index].valueToPay - conciliation[index].valueToReceive).toString()).toString().replaceAll(".", ","),
+                                            style: new TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              color: colorPayment(conciliation[index].valueToPay, conciliation[index].valueToReceive),
+                                            ),
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                   Container(
-                    height: 35.0,
+                    height: 30.0,
                     decoration: new BoxDecoration(
                       shape: BoxShape.rectangle,
-                      color: Colors.grey,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(50.0),
                     ),
-                    margin: new EdgeInsets.only(left: 5.0, right: MediaQuery.of(context).size.width - 40, top: 15.0),
+                    margin: new EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width - 350,
+                        right: MediaQuery.of(context).size.width - 40,
+                        top: 7.0),
                     alignment: FractionalOffset.center,
                     child: new Text(
-                      "1",
-                      style: TextStyle(fontSize: 25),
+                      conciliation[index].day.toString(),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ]);
