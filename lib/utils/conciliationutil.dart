@@ -10,8 +10,8 @@ class ConciliationUtil {
 
     List<ConciliationModel> conciliation = new List<ConciliationModel>();
 
-    for (int i = 1; i < qtdDiasMonth.day; i++) {
-      ConciliationModel c = new ConciliationModel(i, "", 0, 0);
+    for (int i = 1; i <= qtdDiasMonth.day; i++) {
+      ConciliationModel c = new ConciliationModel(i, "", 0, 0, "", 0);
       conciliation.add(c);
     }
 
@@ -24,7 +24,7 @@ class ConciliationUtil {
     for (int i = 0; i < items.length; i++) {
       int dayItem = int.parse(items[i].taskdate);
       conciliation[dayItem].valueToReceive = conciliation[dayItem].valueToReceive + 80.00;
-      print(dayItem);
+      conciliation[dayItem].studentsToReceive = conciliation[dayItem].studentsToReceive + "\n" + items[i].taskname;
     }
 
     return conciliation;
@@ -33,15 +33,24 @@ class ConciliationUtil {
   static List<ConciliationModel> buildConciliationBillsToPay(List<ConciliationModel> conciliation, List<BillsToPay> billsToPay){
 
     for(int i = 0; i < billsToPay.length; i++){
-      int dayBill = DateTime.parse( billsToPay[i].billdate ).day;
+      int dayBill = DateTime.parse( billsToPay[i].billdate ).day -1;
 
-      print(dayBill);
       conciliation[dayBill].valueToPay = conciliation[dayBill].valueToPay + billsToPay[i].billvalue ;
-
-      print( billsToPay[i].billdate );
-      print( billsToPay[i].billvalue );
+      conciliation[dayBill].billsToPay = conciliation[dayBill].billsToPay + "\n" + billsToPay[i].bill;
     }
 
     return conciliation;
+  }
+
+  static double returnTotal(List<ConciliationModel> conciliation){
+
+    double total = 0;
+
+    for(ConciliationModel c in conciliation){
+      total = total + c.valueToPay - c.valueToReceive;
+    }
+
+    print(total);
+    return total;
   }
 }
